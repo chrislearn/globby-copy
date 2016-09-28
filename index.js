@@ -1,23 +1,26 @@
-var fs = require('fs'),
+var fs = require('fs-extra'),
     path = require('path'),
-    glob = require('globby');
+    globby = require('globby'),
+    globbyRelative = require('globby-relative');
 
-var copy = function(files, destFolder) {
+var copy = function(files, pattern, destFolder) {
   files.forEach(function(filename) {
-    var out = fs.createWriteStream(path.join(destFolder, path.basename(filename)));
-    fs.createReadStream(filename).pipe(out);
+      var relPath = globbyRelative(filename, pattern).path;
+    // var out = fs.createWriteStream(path.join(destFolder, relPath));
+    // fs.createReadStream(filename).pipe(out);
+    fs.copySync(filename, path.join(destFolder, relPath));
   });
 }
 
 var cp = function(pattern, destFolder, cb) {
-  glob(pattern, function(err, files) {
-    copy(files, destFolder);
+  globby(pattern, function(err, files) {
+    copy(files, pattern, destFolder);
     if (cb) cb(err, files);
   });
 }
 
 var cpSync = function(pattern, destFolder) {
-  copy(glob.sync(pattern), destFolder);
+  copy(globby.sync(pattern), pattern, destFolder);
 }
 
 module.exports = {copy: cp, copySync: cpSync};

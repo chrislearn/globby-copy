@@ -1,6 +1,6 @@
 {
-  "name": "globby-copy",
-  "version": "0.1.0",
+  "name": "globs-copy",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,10 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chrislearn/globby-copy.git"
+    "url": "https://github.com/chrislearn/globs-copy.git"
   },
   "license": "ISC",
   "dependencies": {
-    "globby": "^6.0.0"
+    "fs-extra": "^0.30.0",
+    "globby": "^6.0.0",
+    "globby-relative": "^0.1.0"
   }
 }
